@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
@@ -46,13 +47,25 @@ class HelloController extends AbstractController
     /**
      * @Route("/dummy.pdf")
      */
-    public function myPdf()
+    public function myPdf(Request $request)
     {
         // Récupérer la request
+        $code = $request->query->get('code'); // $_GET['code']
         // On regarde si le paramètre ?code= est présent
         // S'il est présent et qu'il correspond à la valeur 123, on affiche le PDF
-        // S'il n'est pas présent ou différent de 123, on affiche une 404
+        if ($code === '123') {
+            return $this->file('../dummy.pdf', null, ResponseHeaderBag::DISPOSITION_INLINE);
+        } else {
+            // S'il n'est pas présent ou différent de 123, on affiche une 404
+            throw $this->createNotFoundException();
+        }
+
+        /*
+        if ($code !== '123') {
+            throw $this->createNotFoundException();
+        }
 
         return $this->file('../dummy.pdf', null, ResponseHeaderBag::DISPOSITION_INLINE);
+        */
     }
 }
