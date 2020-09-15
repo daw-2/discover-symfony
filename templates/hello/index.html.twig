@@ -1,5 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <ul>
+        <li>
+            <a href="{{ path('hello', {name: 'toto'}) }}">Hello toto</a>
+        </li>
+        <li>
+            <a href="{{ path('hello', {name: 'titi'}) }}">Hello titi</a>
+        </li>
+        <li>
+            <a href="{{ path('hello', {name: 'tata'}) }}">Hello tata</a>
+        </li>
+    </ul>
+
     <h1>Hello {{ name }}</h1>
 {% endblock %}

@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class HelloController extends AbstractController
 {
@@ -15,5 +18,41 @@ class HelloController extends AbstractController
         return $this->render('hello/index.html.twig', [
             'name' => ucfirst($name),
         ]);
+    }
+
+    /**
+     * @Route("/hello.{_format}")
+     */
+    public function ajax()
+    {
+        $products = ['A', 'B', 'C'];
+
+        // return new Response(json_encode($products));
+        return $this->json($products);
+    }
+
+    /**
+     * @Route("/url")
+     */
+    public function url()
+    {
+        // Générer une URL
+        $url = $this->generateUrl('hello', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        dump($url);
+
+        throw $this->createNotFoundException();
+    }
+
+    /**
+     * @Route("/dummy.pdf")
+     */
+    public function myPdf()
+    {
+        // Récupérer la request
+        // On regarde si le paramètre ?code= est présent
+        // S'il est présent et qu'il correspond à la valeur 123, on affiche le PDF
+        // S'il n'est pas présent ou différent de 123, on affiche une 404
+
+        return $this->file('../dummy.pdf', null, ResponseHeaderBag::DISPOSITION_INLINE);
     }
 }
