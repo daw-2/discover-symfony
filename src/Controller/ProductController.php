@@ -71,6 +71,25 @@ class ProductController extends AbstractController
     }
 
     /**
+     * @Route("/product/order/{slug}", name="product_order")
+     */
+    public function order($slug)
+    {
+        foreach ($this->products as $product) {
+            if ($slug === $product->slug) {
+                $this->addFlash(
+                    'success',
+                    'Le produit '.$product->name.' a été commandé'
+                );
+
+                return $this->redirectToRoute('product_index');
+            }
+        }
+
+        throw $this->createNotFoundException();
+    } 
+
+    /**
      * @Route("/product/{slug}", name="product_show")
      */
     public function show($slug)

@@ -4,8 +4,8 @@
     <div class="container mt-5 mb-5">
       <div class="row">
         <div class="col-md-6 text-center">
-          <h1>{{ product.name }}</h1>
-          <h3>{{ product.price }} €</h3>
+          <h1>{{ product.name }}</h1>
+          <h3>{{ product.price }} €</h3>
         </div>
         <div class="col-md-6">
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque temporibus odio ipsam molestias! Mollitia sapiente voluptatum culpa ad, suscipit earum commodi doloribus eos velit, aliquam assumenda, inventore perspiciatis est dolorum.</p>
@@ -13,7 +13,7 @@
       </div>
 
       <div class="text-center">
-        <a href="#" class="btn btn-info">Commander le produit</a>
+        <a href="{{ path('product_order', {slug: product.slug}) }}" class="btn btn-info">Commander le produit</a>
       </div>
     </div>
 {% endblock %}
