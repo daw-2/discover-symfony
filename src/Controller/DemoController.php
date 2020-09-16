@@ -16,9 +16,14 @@ class DemoController extends AbstractController
     {
         dump($id);
 
+        $users = [
+            ['id' => 1],
+            ['id' => 2],
+        ];
+
         return $this->render('demo/index.html.twig', [
-            'controller_name' => 'DemoController',
             'id' => $id,
+            'users' => $users,
         ]);
     }
 }
