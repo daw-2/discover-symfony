@@ -23,11 +23,14 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="menu">
+                    <!-- On est sur la route : {{ app.request.get('_route') }} -->
+                    {# dump(app.request.attributes.get('_route')) #}
+                    {% set route = app.request.get('_route') %}
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
+                        <li class="nav-item {{ route == 'home' ? 'active' }}">
                             <a class="nav-link" href="{{ path('home') }}">Accueil</a>
                         </li>
-                        <li class="nav-item active">
+                        <li class="nav-item {{ route == 'product_index' ? 'active' }}">
                             <a class="nav-link" href="{{ path('product_index') }}">Produits</a>
                         </li>
                     </ul>
