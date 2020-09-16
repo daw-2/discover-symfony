@@ -21,16 +21,32 @@ class ProductController extends AbstractController
             ['id' => 1, 'name' => 'iPhone X', 'slug' => 'iphone-x', 'price' => 999],
             ['id' => 2, 'name' => 'iPhone XR', 'slug' => 'iphone-xr', 'price' => 1099],
             ['id' => 3, 'name' => 'iPhone XS', 'slug' => 'iphone-xs', 'price' => 1199],
+            ['id' => 4, 'name' => 'iPhone XS', 'slug' => 'iphone-xs', 'price' => 1199],
+            ['id' => 5, 'name' => 'iPhone XS', 'slug' => 'iphone-xs', 'price' => 1199],
+            ['id' => 6, 'name' => 'iPhone XS', 'slug' => 'iphone-xs', 'price' => 1199],
+            ['id' => 7, 'name' => 'iPhone XS', 'slug' => 'iphone-xs', 'price' => 1199],
         ];
     }
 
     /**
-     * @Route("/product", name="product_index")
+     * @Route("/product/{page}", name="product_index")
      */
-    public function index()
+    public function index($page = 1)
     {
+        // page 1 => 0 => (1 - 1) * 2
+        // page 2 => 2 => (2 - 1) * 2
+        // page 3 => 4 => (3 - 1) * 2
+
+        $itemByPage = 2;
+        $offset = ($page - 1) * $itemByPage;
+        $products = array_slice($this->products, $offset, $itemByPage);
+
+        if (empty($products)) {
+            throw $this->createNotFoundException();
+        }
+
         return $this->render('product/index.html.twig', [
-            'products' => $this->products,
+            'products' => $products,
         ]);
     }
 
