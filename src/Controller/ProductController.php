@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Model\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,18 +19,17 @@ class ProductController extends AbstractController
     public function __construct()
     {
         $this->products = [
-            ['id' => 1, 'name' => 'iPhone X', 'slug' => 'iphone-x', 'price' => 999],
-            ['id' => 2, 'name' => 'iPhone XR', 'slug' => 'iphone-xr', 'price' => 1099],
-            ['id' => 3, 'name' => 'iPhone XS', 'slug' => 'iphone-xs', 'price' => 1199],
-            ['id' => 4, 'name' => 'iPhone XS', 'slug' => 'iphone-xs', 'price' => 1199],
-            ['id' => 5, 'name' => 'iPhone XS', 'slug' => 'iphone-xs', 'price' => 1199],
-            ['id' => 6, 'name' => 'iPhone XS', 'slug' => 'iphone-xs', 'price' => 1199],
-            ['id' => 7, 'name' => 'iPhone XS', 'slug' => 'iphone-xs', 'price' => 1199],
+            // ['id' => 1, 'name' => 'iPhone X', 'slug' => 'iphone-x', 'price' => 999],
+            // ['id' => 2, 'name' => 'iPhone XR', 'slug' => 'iphone-xr', 'price' => 1099],
+            // ['id' => 3, 'name' => 'iPhone XS', 'slug' => 'iphone-xs', 'price' => 1199],
+            new Product('iPhone X', 'iphone-x', 999),
+            new Product('iPhone XR', 'iphone-xr', 1099),
+            new Product('iPhone XS', 'iphone-xs', 1199),
         ];
     }
 
     /**
-     * @Route("/product/{page}", name="product_index")
+     * @Route("/product/{page}", name="product_index", requirements={"page"="\d+"})
      */
     public function index($page = 1)
     {
@@ -76,7 +76,7 @@ class ProductController extends AbstractController
     public function show($slug)
     {
         foreach ($this->products as $product) {
-            if ($slug === $product['slug']) {
+            if ($slug === $product->slug) {
                 return $this->render('product/show.html.twig', [
                     'product' => $product,
                 ]);
