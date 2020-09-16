@@ -19,7 +19,7 @@ class HomeController extends AbstractController
         dump(['a' => 1, 'b' => 2]);
         dump($request);
 
-        $name = '<script>Matthieu</script>';
+        $name = '<script>alert("Matthieu");</script>';
 
         dump($logger);
         $logger->info('Ok, on va logger');

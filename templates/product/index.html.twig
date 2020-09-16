@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/product.css') }}">
+{% endblock %}
+
 {% block body %}
     <table>
         <thead>
@@ -20,4 +25,8 @@
             {% endfor %}
         </tbody>
     </table>
+
+    {{ dump(app) }}
+    {{ dump(app.user) }}
+    {{ dump(app.session.get('user')) }}
 {% endblock %}

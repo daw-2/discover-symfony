@@ -1,0 +1,1 @@
+alert('Cool ça marche');
