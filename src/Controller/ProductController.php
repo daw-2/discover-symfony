@@ -38,6 +38,7 @@ class ProductController extends AbstractController
         // page 3 => 4 => (3 - 1) * 2
 
         $itemByPage = 2;
+        $totalPage = ceil(count($this->products) / $itemByPage);
         $offset = ($page - 1) * $itemByPage;
         $products = array_slice($this->products, $offset, $itemByPage);
 
@@ -47,6 +48,8 @@ class ProductController extends AbstractController
 
         return $this->render('product/index.html.twig', [
             'products' => $products,
+            'total_page' => $totalPage,
+            'current_page' => $page,
         ]);
     }
 
