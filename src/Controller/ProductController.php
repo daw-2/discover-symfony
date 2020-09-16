@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -24,14 +25,6 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/product/random", name="product_random")
-     */
-    public function random()
-    {
-        return $this->render('product/show.html.twig');
-    }
-
-    /**
      * @Route("/product", name="product_index")
      */
     public function index()
@@ -50,10 +43,43 @@ class ProductController extends AbstractController
     }
 
     /**
+     * @Route("/product/random", name="product_random")
+     */
+    public function random()
+    {
+        $product = $this->products[array_rand($this->products)];
+
+        return $this->render('product/show.html.twig', [
+            'product' => $product,
+        ]);
+    }
+
+    /**
      * @Route("/product/{slug}", name="product_show")
      */
     public function show($slug)
     {
-        return $this->render('product/show.html.twig');
+        foreach ($this->products as $product) {
+            if ($slug === $product['slug']) {
+                return $this->render('product/show.html.twig', [
+                    'product' => $product,
+                ]);
+            }
+        }
+
+        throw $this->createNotFoundException();
+    }
+
+    /**
+     * @Route("/product.json")
+     */
+    public function api(Request $request)
+    {
+        // Permet de vérifier que l'url est appellée via AJAX
+        if (!$request->isXmlHttpRequest()) {
+            throw $this->createNotFoundException();
+        }
+
+        return $this->json($this->products);
     }
 }
