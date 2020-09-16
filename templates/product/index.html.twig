@@ -6,27 +6,35 @@
 {% endblock %}
 
 {% block body %}
-    <table>
-        <thead>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Slug</th>
-            <th>Price</th>
-        </thead>
-
-        <tbody>
+    <div class="container mt-5 mb-5">
+      <h1 class="text-center mb-5">Nos produits</h1>
+      <div>
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nom</th>
+              <th scope="col">Description</th>
+              <th scope="col">Prix</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
             {% for product in products %}
-                <tr>
-                    <td>{{ product.id }}</td>
-                    <td>{{ product.name }}</td>
-                    <td>{{ product.slug }}</td>
-                    <td>{{ product.price }}</td>
-                </tr>
+            <tr>
+              <th scope="row">{{ product.id }}</th>
+              <td>{{ product.name }}</td>
+              <td>Un iPhone de 2017</td>
+              <td>{{ product.price }} €</td>
+              <td><a href="{{ path('product_show', {'slug': product.slug}) }}" class="btn btn-secondary">Voir le produit</a></td>
+            </tr>
             {% endfor %}
-        </tbody>
-    </table>
+          </tbody>
+        </table>
 
-    {{ dump(app) }}
-    {{ dump(app.user) }}
-    {{ dump(app.session.get('user')) }}
+        {# dump(app) #}
+        {# dump(app.user) #}
+        {# dump(app.session.get('user')) #}
+      </div>
+    </div>
 {% endblock %}
