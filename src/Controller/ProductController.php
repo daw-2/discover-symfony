@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\ProductType;
 use App\Model\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -60,15 +61,7 @@ class ProductController extends AbstractController
     public function create(Request $request)
     {
         $product = new Product();
-
-        $form = $this->createFormBuilder($product)
-            ->add('name')
-            ->add('description', TextareaType::class, [
-                'label' => 'Ma description',
-                'label_attr' => ['class' => 'text-success'],
-            ])
-            ->add('price')
-            ->getForm();
+        $form = $this->createForm(ProductType::class, $product);
 
         // On donne la request au formulaire pour qu'il
         // puisse traiter le formulaire
