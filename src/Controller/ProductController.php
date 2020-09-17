@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Model\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,9 +23,9 @@ class ProductController extends AbstractController
             // ['id' => 1, 'name' => 'iPhone X', 'slug' => 'iphone-x', 'price' => 999],
             // ['id' => 2, 'name' => 'iPhone XR', 'slug' => 'iphone-xr', 'price' => 1099],
             // ['id' => 3, 'name' => 'iPhone XS', 'slug' => 'iphone-xs', 'price' => 1199],
-            new Product('iPhone X', 'iphone-x', 999),
-            new Product('iPhone XR', 'iphone-xr', 1099),
-            new Product('iPhone XS', 'iphone-xs', 1199),
+            new Product('iPhone X', '2017', 'iphone-x', 999),
+            new Product('iPhone XR', '2018', 'iphone-xr', 1099),
+            new Product('iPhone XS', '2019', 'iphone-xs', 1199),
         ];
     }
 
@@ -56,9 +57,35 @@ class ProductController extends AbstractController
     /**
      * @Route("/product/create", name="product_create")
      */
-    public function create()
+    public function create(Request $request)
     {
-        return $this->render('product/create.html.twig');
+        $product = new Product();
+
+        $form = $this->createFormBuilder($product)
+            ->add('name')
+            ->add('description', TextareaType::class, [
+                'label' => 'Ma description',
+                'label_attr' => ['class' => 'text-success'],
+            ])
+            ->add('price')
+            ->getForm();
+
+        // On donne la request au formulaire pour qu'il
+        // puisse traiter le formulaire
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Récupèrer les données
+            dump($form->getData());
+            dump($product);
+            dump($form->getData() === $product);
+
+            // Envoyer un mail, ajouter à la BDD...
+        }
+
+        return $this->render('product/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**

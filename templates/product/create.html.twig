@@ -1,5 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    @todo FORMULAIRE
+    <div class="container">
+        {{ form_start(form) }}
+            {{ form_label(form.name, 'Nom', {'label_attr': {
+                'class': 'text-success'
+            }}) }}
+            {{ form_errors(form.name) }}
+            {{ form_widget(form.name) }}
+
+            {{ form_widget(form) }}
+
+            <button class="btn btn-primary" formnovalidate>
+                Créer le produit
+            </button>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
